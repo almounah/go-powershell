@@ -38,7 +38,7 @@ func LocalAlloc(length uint64) (ptr uintptr, err error) {
 	var LocalAlloc_LPTR uint32 = 0x40
 	modkernel32    := windows.NewLazySystemDLL("kernel32.dll")
 	procLocalAlloc := modkernel32.NewProc("LocalAlloc")
-	ptr, _, lastError := windows.SyscallN(procLocalAlloc.Addr(), uintptr(LocalAlloc_LPTR), uintptr(length), 0)
+	ptr, _, lastError := syscall.SyscallN(procLocalAlloc.Addr(), uintptr(LocalAlloc_LPTR), uintptr(length))
 	err = NotNill(ptr, lastError)
 	return
 }
