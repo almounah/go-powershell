@@ -1,7 +1,7 @@
 package powershell
 
 import (
-	"github.com/KnicKnic/go-powershell/pkg/logger"
+	"github.com/almounah/go-powershell/pkg/logger"
 	"golang.org/x/sys/windows"
 )
 

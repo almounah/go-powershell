@@ -1,8 +1,10 @@
 package powershell
 
 import (
+	"syscall"
 	"unsafe"
-	"github.com/KnicKnic/go-windows/pkg/kernel32"
+
+	"golang.org/x/sys/windows"
 )
 
 func makeUint64FromPtr(v uintptr) uint64 {
@@ -16,8 +18,32 @@ func allocWrapper(size uint64) (uintptr, error) {
 	return nativePowerShell_DefaultAlloc(size)
 }
 
+func Ensure(lastError syscall.Errno) error {
+	if lastError != 0 {
+		return lastError
+	} else {
+		return syscall.EINVAL
+	}
+}
+
+func NotNill(ro uintptr, lastError syscall.Errno) error {
+	if ro == 0 {
+		return Ensure(lastError)
+	}
+	return nil
+
+}
+
+func LocalAlloc(length uint64) (ptr uintptr, err error) {
+	var LocalAlloc_LPTR uint32 = 0x40
+	modkernel32    := windows.NewLazySystemDLL("kernel32.dll")
+	procLocalAlloc := modkernel32.NewProc("LocalAlloc")
+	ptr, _, lastError := windows.SyscallN(procLocalAlloc.Addr(), uintptr(LocalAlloc_LPTR), uintptr(length), 0)
+	err = NotNill(ptr, lastError)
+	return
+}
 func localAllocWrapper(size uint64) (uintptr, error) {
-	return kernel32.LocalAlloc(size)
+	return LocalAlloc(size)
 }
 
 func freeWrapper(v uintptr) {

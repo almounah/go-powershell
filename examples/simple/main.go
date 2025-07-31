@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/KnicKnic/go-powershell/pkg/powershell"
+	"github.com/almounah/go-powershell/pkg/powershell"
 )
 
 func main() {

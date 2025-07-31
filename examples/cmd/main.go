@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/KnicKnic/go-powershell/pkg/logger/kloghelper"
-	"github.com/KnicKnic/go-powershell/pkg/powershell"
+	"github.com/almounah/go-powershell/pkg/logger/kloghelper"
+	"github.com/almounah/go-powershell/pkg/powershell"
 	"k8s.io/klog"
 )
 
